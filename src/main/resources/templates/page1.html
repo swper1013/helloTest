@@ -1,0 +1,78 @@
+<!-- page1.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>사고 싶은 품목 등록</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            width: 320px;
+        }
+        label {
+            margin-top: 15px;
+            font-weight: 600;
+        }
+        input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin-top: 5px;
+        }
+        button {
+            margin-top: 25px;
+            padding: 12px;
+            border: none;
+            background: #4CAF50;
+            color: white;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #43a047;
+        }
+    </style>
+</head>
+<body>
+<div th:if="${alertMessage}" style="background-color: #fce4ec; padding: 16px; text-align: center; color: #c2185b; font-weight: bold;">
+    <p th:text="${alertMessage}"></p>
+</div>
+<h1>📦 사고 싶은 품목 등록</h1>
+<form th:action="@{/page1}" method="post">
+    <label>품목명</label>
+    <input type="text" name="valueName" required>
+
+    <label>사이트</label>
+    <input type="text" name="site">
+
+    <label>다나와 최저가</label>
+    <input type="number" name="lowPrice" min="0">
+
+    <label>내가 원하는 가격</label>
+    <input type="number" name="wantPrice" min="0">
+
+    <button type="submit">저장하기</button>
+</form>
+</body>
+</html>
