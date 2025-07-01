@@ -17,14 +17,6 @@
 <div class="container">
     <h2 class="mb-4">🛎️ 뽐뿌 키워드 실시간 알림</h2>
 
-    <!-- 🔍 검색창 -->
-    <form class="mb-3" method="get" th:action="@{/alerts}">
-        <div class="input-group">
-            <input type="text" class="form-control" name="keyword" th:value="${param.keyword}" placeholder="품목 키워드로 검색">
-            <button class="btn btn-primary" type="submit">검색</button>
-        </div>
-    </form>
-
     <!-- 📋 알림 리스트 -->
     <table class="table table-bordered table-hover">
         <thead class="table-light">
@@ -39,13 +31,13 @@
         <tbody>
         <tr th:each="alert, iterStat : ${alerts}">
             <td th:text="${iterStat.count}">1</td>
-            <td th:text="${alert.keyword}">아이패드</td>
-            <td th:text="${alert.title}">아이패드 할인정보</td>
+            <td th:text="${alert.keyword}">품목명</td>
+            <td th:text="${alert.title}">제목</td>
             <td><a th:href="${alert.link}" target="_blank">바로가기</a></td>
             <td th:text="${#temporals.format(alert.detectedAt, 'yyyy-MM-dd HH:mm')}">2025-06-24 15:00</td>
         </tr>
         <tr th:if="${alerts.empty}">
-            <td colspan="5" class="text-center text-muted">📭 검색 결과가 없습니다.</td>
+            <td colspan="5" class="text-center text-muted">📭 알림 결과가 없습니다.</td>
         </tr>
         </tbody>
     </table>

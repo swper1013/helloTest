@@ -6,6 +6,8 @@ import org.example.buylist.dto.ListDto;
 import org.example.buylist.entity.BuylistEntity;
 import org.example.buylist.repository.ListRepository;
 import org.example.buylist.service.ListService;
+import org.example.buylist.util.PpomppuCrawler; // ✅ 크롤러 import
+import org.mapstruct.Qualifier;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -16,18 +18,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ListServiceImp implements ListService {
     private final ListRepository listRepository;
-    private final BuylistMapper  mapper;
+    private final BuylistMapper mapper;
+    private final PpomppuCrawler ppomppuCrawler; // ✅ 크롤러 주입
 
     @Override
     public void save(ListDto listDto) {
-        BuylistEntity buylistEntity =mapper.toEntity(listDto);
+        BuylistEntity buylistEntity = mapper.toEntity(listDto);
         buylistEntity.setCreatedAt(LocalDateTime.now());
         listRepository.save(buylistEntity);
     }
 
     @Override
     public List<ListDto> findAll() {
-
         return listRepository.findAll(Sort.by(Sort.Direction.DESC,"createdAt")).stream()
                 .map(mapper::toDTO)
                 .toList();
@@ -36,5 +38,10 @@ public class ListServiceImp implements ListService {
     @Override
     public void delete(Long id) {
         listRepository.deleteById(id);
+    }
+
+    @Override
+    public void crawlNow(String keyword) {
+        ppomppuCrawler.crawlAndSaveAll(); // ✅ 전체 품목 기준으로 실행
     }
 }

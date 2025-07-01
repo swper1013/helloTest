@@ -3,7 +3,9 @@ package org.example.buylist.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.buylist.dto.ListDto;
+import org.example.buylist.service.CrawlResultService;
 import org.example.buylist.service.ListService;
+import org.example.buylist.util.PpomppuCrawler;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor
 public class ListController {
     private final ListService listService;
+    private final PpomppuCrawler  ppomppuCrawler;
+    private final CrawlResultService crawlResultService;
 
     @GetMapping("/")
     public String page1(Model model) {
@@ -42,5 +46,11 @@ public class ListController {
         listService.delete(id);
         return "redirect:/page2";
     }
+    @GetMapping("/page3")
+    public String showPage3(Model model) {
+        model.addAttribute("alerts", crawlResultService.findAll()); // alerts 로 전달
+        return "page3";
+    }
+
 
 }

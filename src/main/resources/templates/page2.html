@@ -15,6 +15,28 @@
             text-align: center;
             color: #333;
         }
+        .top-actions {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .crawl-btn {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .crawl-btn:hover {
+            background-color: #45a049;
+        }
+        #crawlResult {
+            display: block;
+            margin-top: 10px;
+            color: #4caf50;
+            font-weight: bold;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -36,7 +58,7 @@
         tr:hover {
             background-color: #f1f1f1;
         }
-        button {
+        button.delete-btn {
             background-color: #e53935;
             color: white;
             border: none;
@@ -44,7 +66,7 @@
             border-radius: 6px;
             cursor: pointer;
         }
-        button:hover {
+        button.delete-btn:hover {
             background-color: #d32f2f;
         }
     </style>
@@ -52,6 +74,12 @@
 <body>
 
 <h1>📋 저장된 품목 목록</h1>
+
+<div class="top-actions">
+    <button id="crawlNowBtn" class="crawl-btn">⚡ 즉시 크롤링</button>
+    <span id="crawlResult"></span>
+</div>
+
 <table>
     <thead>
     <tr>
@@ -72,11 +100,29 @@
         <td th:text="${item.createdAt}"></td>
         <td>
             <form th:action="@{'/delete/' + ${item.id}}" method="post">
-                <button type="submit">삭제</button>
+                <button type="submit" class="delete-btn">삭제</button>
             </form>
         </td>
     </tr>
     </tbody>
 </table>
+
+<script>
+    document.getElementById("crawlNowBtn").addEventListener("click", function(){
+        const resultSpan = document.getElementById("crawlResult");
+        resultSpan.textContent = "⏳ 즉시 크롤링 실행 중...";
+        fetch('/crawlNow')
+            .then(response => response.text())
+            .then(data => {
+                resultSpan.textContent = data;
+                alert(data); // 팝업으로 알림
+            })
+            .catch(error => {
+                console.error('에러:', error);
+                resultSpan.textContent = '❌ 오류가 발생했습니다.';
+            });
+    });
+</script>
+
 </body>
 </html>

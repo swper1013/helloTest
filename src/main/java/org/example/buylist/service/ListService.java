@@ -8,4 +8,5 @@ public interface ListService {
     void save(ListDto listDto);
     List<ListDto> findAll();
     void delete(Long id);
+    void crawlNow(String keyword);
 }
